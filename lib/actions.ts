@@ -1,5 +1,6 @@
 'use server'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { createPost, updatePost, deletePost } from '@/lib/api'
 
 export async function createPostAction(formData: FormData) {
@@ -8,6 +9,7 @@ export async function createPostAction(formData: FormData) {
     content: formData.get('content') as string,
   })
   revalidatePath('/posts')
+  redirect('/posts')
 }
 
 export async function updatePostAction(formData: FormData) {
@@ -17,10 +19,12 @@ export async function updatePostAction(formData: FormData) {
     content: formData.get('content') as string,
   })
   revalidatePath('/posts')
+  redirect('/posts')
 }
 
 export async function deletePostAction(formData: FormData) {
   const id = parseInt(formData.get('id') as string)
   await deletePost(id)
   revalidatePath('/posts')
+  redirect('/posts')
 }
